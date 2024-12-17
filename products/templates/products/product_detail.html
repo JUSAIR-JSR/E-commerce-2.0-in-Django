@@ -3,55 +3,62 @@
 {% block title %}Product Detail{% endblock %}
 
 {% block content %}
-<h1>{{ product.name }}</h1>
-<p>{{ product.description }}</p>
-<p>${{ product.price }}</p>
-<img src="{{ product.image.url }}" alt="{{ product.name }}">
+<div class="container">
+    <!-- Product Details Section -->
+    <h1>{{ product.name }}</h1>
+    <p>{{ product.description }}</p>
+    <p><strong>Price:</strong> ${{ product.price }}</p>
+    <img src="{{ product.image.url }}" alt="{{ product.name }} " width="200" height="200" class="img-fluid">
 
-<!-- Add to Cart Button -->
-{% if user.is_authenticated %}
-    <form method="post" action="{% url 'add_to_cart' product.pk %}">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-success">Add to Cart</button>
-    </form>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to add to cart.</p>
-{% endif %}
+    <!-- Add to Cart Button -->
+    {% if user.is_authenticated %}
+        <form method="post" action="{% url 'add_to_cart' product.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Add to Cart</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to add to cart.</p>
+    {% endif %}
 
-<h2>Overall Rating: 
+    <!-- Product Rating Section -->
+    <h2>Overall Rating:</h2>
     {% if average_rating %}
         <span class="star-rating" data-rating="{{ average_rating|floatformat:1 }}"></span>
     {% else %}
-        No ratings yet
+        <p>No ratings yet</p>
     {% endif %}
-</h2>
 
-<h2>Submit Your Rating</h2>
-{% if user.is_authenticated %}
-    <form method="post">
-        {% csrf_token %}
-        <input type="hidden" name="score" id="rating-score">
-        {{ rating_form.comment.label_tag }}<br>
-        {{ rating_form.comment }}
-        <div class="user-star-rating" data-rating="0">
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
-            <span class="star">&#9733;</span>
+    <!-- Rating Submission Section -->
+    <h2>Submit Your Rating</h2>
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="score" id="rating-score">
+            <div class="form-group">
+                {{ rating_form.comment.label_tag }}<br>
+                {{ rating_form.comment }}
+            </div>
+            <div class="user-star-rating" data-rating="0">
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+                <span class="star">&#9733;</span>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Rating</button>
+        </form>
+    {% else %}
+        <p><a href="{% url 'login' %}">Login</a> to submit a rating.</p>
+    {% endif %}
+
+    <!-- Comments Section -->
+    <h2>Comments</h2>
+    {% for rating in ratings %}
+        <div class="comment">
+            <p><strong>Comment:</strong> {{ rating.comment }}</p>
         </div>
-        <button type="submit" class="btn btn-primary">Submit Rating</button>
-    </form>
-{% else %}
-    <p><a href="{% url 'login' %}">Login</a> to submit a rating.</p>
-{% endif %}
-
-<h2>Comments</h2>
-{% for rating in ratings %}
-    <div>
-        <p>{{ rating.comment }}</p>
-    </div>
-{% endfor %}
+    {% endfor %}
+</div>
 
 <!-- Include jQuery -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -107,23 +114,106 @@ $(document).ready(function() {
     }
 });
 </script>
+
 <style>
+/* General Styling */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: #fff;
+}
+
+h1, h2 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+}
+
+p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Product Image */
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+}
+
+/* Button Styling */
+button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Add to Cart and Submit Buttons */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+/* Star Rating Styling */
 .star-rating, .user-star-rating {
     display: inline-block;
+    font-size: 24px;
 }
 
 .star {
-    font-size: 24px;
-    cursor: pointer;
     color: #ccc;
+    cursor: pointer;
 }
 
 .star.filled {
-    color: #ff0;
+    color: #ffae00;
 }
 
-.user-star-rating .star {
-    cursor: pointer;
+/* Comment Styling */
+.comment {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.comment p {
+    margin: 0;
+}
+
+/* Form Styling */
+.form-group {
+    margin-bottom: 15px;
+}
+textarea{
+    height: 5rem;
+    width: 30rem;
+    /* border: 1px solid black; */
+    border: none;
+    outline: none;
+    border-radius: 1rem;
+    padding: 1rem;
+    background: #dcdcdc;
 }
 </style>
+
 {% endblock %}

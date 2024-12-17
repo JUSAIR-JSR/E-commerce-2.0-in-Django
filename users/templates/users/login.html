@@ -1,17 +1,70 @@
-{% extends 'base.html' %}
+<html>
+    <head>
+        <style>
+            .main{
+                /* border: 2px solid green; */
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            }
+          .sub{
+            /* border: 2px solid green; */
+            display: grid;
+            width: 30rem;
+            height: 10rem;
+            font-size: 20px;
+
+          }
+          .sub label{
+            font-size: 1.5rem;
+          }
+          .sub input{
+            border: none;
+            outline: none;
+            height: 4rem;
+            border-radius: 1.5rem;
+            padding: 1rem;
+          }
+         .btns{
+            display: grid;
+        }
+        .btns button{
+             font-size: 1.5rem;
+             border-radius: 1.3rem;
+         }
+        </style>
+    </head>
+    
+    {% extends 'base.html' %}
 
 {% block title %}Login{% endblock %}
 
+
 {% block content %}
-<h1>Login</h1>
-<form method="post">
+<div class="main">
+    <form method="post">
+    <h1>Login</h1>
     {% csrf_token %}
-    <div class="form-group">
-        <input type="text" name="username" class="form-control" placeholder="Username">
-    </div>
-    <div class="form-group">
-        <input type="password" name="password" class="form-control" placeholder="Password">
-    </div>
-    <button type="submit" class="btn btn-primary">Login</button>
-</form>
+
+        
+        <div class="conatiner">
+            <div class="sub">
+                <label for="">Name</label>
+                <input type="text" name="username" id="" placeholder="Enter your Name: ">
+            </div>
+            <div class="sub">
+                <label for="">Password</label>
+                <input type="password" name="password" id="" placeholder="Enter your Password: ">
+            </div>
+            <div class="btns">
+                <button type="submit" class="btn btn-success">Login</button>
+    
+            </div> 
+        </div>
+    </form>
+</div>
 {% endblock %}
+
+</html>

@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+  
 {% load static %}
 
 {% block title %}Search Results{% endblock %}
@@ -6,37 +7,45 @@
 {% block content %}
 <h1>Search Results</h1>
 
-<form method="get" action="{% url 'search' %}">
-    <input type="text" name="q" placeholder="Search Products" value="{{ request.GET.q }}">
-    
-    <select name="category">
-        <option value="">All Categories</option>
-        {% for category in categories %}
-            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
-                {{ category.name }}
-            </option>
-        {% endfor %}
-    </select>
+<form method="get" action="{% url 'search' %}" class="search-form">
+    <div class="form-group">
+        <input type="text" name="q" class="form-control" placeholder="Search Products" value="{{ request.GET.q }}">
+    </div>
 
-    <select name="price_range">
-        <option value="">All Prices</option>
-        {% for label, min_price, max_price in price_ranges %}
-            <option value="{{ label }}" {% if request.GET.price_range == label %}selected{% endif %}>
-                {{ label }}
-            </option>
-        {% endfor %}
-    </select>
+    <div class="form-group">
+        <select name="category" class="form-control">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <select name="star_rating">
-        <option value="">All Ratings</option>
-        {% for label, value in star_ratings %}
-            <option value="{{ value }}" {% if request.GET.star_rating == value|stringformat:"s" %}selected{% endif %}>
-                {{ label }} Star
-            </option>
-        {% endfor %}
-    </select>
+    <div class="form-group">
+        <select name="price_range" class="form-control">
+            <option value="">All Prices</option>
+            {% for label, min_price, max_price in price_ranges %}
+                <option value="{{ label }}" {% if request.GET.price_range == label %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <button type="submit">Search</button>
+    <div class="form-group">
+        <select name="star_rating" class="form-control">
+            <option value="">All Ratings</option>
+            {% for label, value in star_ratings %}
+                <option value="{{ value }}" {% if request.GET.star_rating == value|stringformat:"s" %}selected{% endif %}>
+                    {{ label }} Star
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Search</button>
 </form>
 
 <div class="row">
@@ -83,11 +92,50 @@ $(document).ready(function() {
 
 .star {
     font-size: 24px;
-    color: #ccc;
+    color: #110e0e;
 }
 
 .star.filled {
-    color: #ff0;
+    color: rgb(255, 174, 0);
 }
+.search-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        margin-bottom: 3rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        width: 25rem;
+        margin: 3px;    
+    }
+
+    .form-control {
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 2px;
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 2.7rem;
+        margin-left: 2rem;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
 </style>
 {% endblock %}
+

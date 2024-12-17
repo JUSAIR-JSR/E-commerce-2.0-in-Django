@@ -1,12 +1,47 @@
-{% extends 'base.html' %}
+<style>
+    *{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-weight: bold;
+    }
+    .container{
+        display: grid;
+        justify-content: center;
+        align-items: center;
+    }
+     p{
+        /* border: 2px solid red; */
+        display: grid;
+        width: 50rem;
+     }
+     input{
+        border: none;
+        outline: none;
+        border-radius: 1rem;
+        padding: 1rem;
+     }
+     .btns{
+            display: grid;
+        }
+        .btns button{
+             font-size: 1.5rem;
+             border-radius: 1.3rem;
+         }
+</style>
+    
+    {% extends 'base.html' %}
 
 {% block title %}Register{% endblock %}
 
 {% block content %}
+
 <h1>Register</h1>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Register</button>
+    <div class="btns">
+        <button type="submit" class="btn btn-success">Register</button>
+    </div>
 </form>
 {% endblock %}
+
+</html>
