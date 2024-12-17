@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+
+{% block title %}Product Detail{% endblock %}
+
+{% block content %}
+<h1>{{ product.name }}</h1>
+<p>{{ product.description }}</p>
+<p>${{ product.price }}</p>
+<img src="{{ product.image.url }}" alt="{{ product.name }}">
+
+<!-- Add to Cart Button -->
+{% if user.is_authenticated %}
+    <form method="post" action="{% url 'add_to_cart' product.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Add to Cart</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to add to cart.</p>
+{% endif %}
+
+<h2>Overall Rating: 
+    {% if average_rating %}
+        <span class="star-rating" data-rating="{{ average_rating|floatformat:1 }}"></span>
+    {% else %}
+        No ratings yet
+    {% endif %}
+</h2>
+
+<h2>Submit Your Rating</h2>
+{% if user.is_authenticated %}
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="score" id="rating-score">
+        {{ rating_form.comment.label_tag }}<br>
+        {{ rating_form.comment }}
+        <div class="user-star-rating" data-rating="0">
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+            <span class="star">&#9733;</span>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Rating</button>
+    </form>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> to submit a rating.</p>
+{% endif %}
+
+<h2>Comments</h2>
+{% for rating in ratings %}
+    <div>
+        <p>{{ rating.comment }}</p>
+    </div>
+{% endfor %}
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Display filled stars for existing ratings
+    $('.star-rating').each(function() {
+        var rating = $(this).data('rating');
+        $(this).html(starRatingHtml(rating));
+    });
+
+    // Display filled stars for user rating submission
+    $('.user-star-rating .star').on('click', function() {
+        var rating = $(this).index() + 1;
+        $('#rating-score').val(rating);
+        $(this).parent().find('.star').removeClass('filled');
+        $(this).parent().find('.star').each(function(index) {
+            if (index < rating) {
+                $(this).addClass('filled');
+            }
+        });
+    });
+
+    // User star rating hover effect
+    $('.user-star-rating .star').hover(
+        function() {
+            var rating = $(this).index() + 1;
+            $(this).parent().find('.star').removeClass('filled');
+            $(this).parent().find('.star').each(function(index) {
+                if (index < rating) {
+                    $(this).addClass('filled');
+                }
+            });
+        },
+        function() {
+            var rating = $('#rating-score').val();
+            $(this).parent().find('.star').removeClass('filled');
+            $(this).parent().find('.star').each(function(index) {
+                if (index < rating) {
+                    $(this).addClass('filled');
+                }
+            });
+        }
+    );
+
+    // Function to generate star rating HTML
+    function starRatingHtml(rating) {
+        var stars = '';
+        for (var i = 1; i <= 5; i++) {
+            stars += i <= rating ? '<span class="star filled">&#9733;</span>' : '<span class="star">&#9733;</span>';
+        }
+        return stars;
+    }
+});
+</script>
+<style>
+.star-rating, .user-star-rating {
+    display: inline-block;
+}
+
+.star {
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.star.filled {
+    color: #ff0;
+}
+
+.user-star-rating .star {
+    cursor: pointer;
+}
+</style>
+{% endblock %}

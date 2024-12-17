@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Search Results{% endblock %}
+
+{% block content %}
+<h1>Search Results</h1>
+
+<form method="get" action="{% url 'search' %}">
+    <input type="text" name="q" placeholder="Search Products" value="{{ request.GET.q }}">
+    
+    <select name="category">
+        <option value="">All Categories</option>
+        {% for category in categories %}
+            <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"s" %}selected{% endif %}>
+                {{ category.name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <select name="price_range">
+        <option value="">All Prices</option>
+        {% for label, min_price, max_price in price_ranges %}
+            <option value="{{ label }}" {% if request.GET.price_range == label %}selected{% endif %}>
+                {{ label }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <select name="star_rating">
+        <option value="">All Ratings</option>
+        {% for label, value in star_ratings %}
+            <option value="{{ value }}" {% if request.GET.star_rating == value|stringformat:"s" %}selected{% endif %}>
+                {{ label }} Star
+            </option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Search</button>
+</form>
+
+<div class="row">
+    {% for product in products %}
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ product.name }}</h5>
+                    <p class="card-text">${{ product.price }}</p>
+                    <p class="card-text">
+                        Rating:
+                        <span class="star-rating" data-rating="{{ product.avg_rating|default:0 }}"></span>
+                    </p>
+                    <a href="{% url 'product_detail' product.pk %}" class="btn btn-primary">View Product</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+<!-- Include jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $('.star-rating').each(function() {
+        var rating = $(this).data('rating');
+        $(this).append(starRatingHtml(rating));
+    });
+
+    function starRatingHtml(rating) {
+        var stars = '';
+        for (var i = 1; i <= 5; i++) {
+            stars += i <= rating ? '<span class="star filled">&#9733;</span>' : '<span class="star">&#9733;</span>';
+        }
+        return stars;
+    }
+});
+</script>
+<style>
+.star-rating {
+    display: inline-block;
+}
+
+.star {
+    font-size: 24px;
+    color: #ccc;
+}
+
+.star.filled {
+    color: #ff0;
+}
+</style>
+{% endblock %}
