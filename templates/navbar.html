@@ -25,7 +25,8 @@
                         <img src="{% static 'images/default_avatar.png' %}" alt="Avatar" class="rounded-circle" width="30" height="30"> {{ user.username }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'profile' %}">Profile</a>
+                        <a class="dropdown-item" href="#" onclick="confirmLogout(event)">Logout</a>
                     </div>
                 </li>
             {% else %}
@@ -39,3 +40,16 @@
         </ul>
     </div>
 </nav>
+
+<form id="logout-form" action="{% url 'logout' %}" method="post" style="display: none;">
+    {% csrf_token %}
+</form>
+
+<script>
+    function confirmLogout(event) {
+        event.preventDefault();
+        if (confirm("Do you want to logout?")) {
+            document.getElementById('logout-form').submit();
+        }
+    }
+</script>

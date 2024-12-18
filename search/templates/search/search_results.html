@@ -51,9 +51,9 @@
 <div class="row">
     {% for product in products %}
         <div class="col-md-4">
-            <div class="card mb-4">
-                <img src="{{ product.image.url }}" class="card-img-top" alt="{{ product.name }}">
-                <div class="card-body">
+            <div class="card mb-4 reduced-card">
+                <img src="{{ product.image.url }}" class="card-img-top reduced-card-img" alt="{{ product.name }}">
+                <div class="card-body reduced-card-body">
                     <h5 class="card-title">{{ product.name }}</h5>
                     <p class="card-text">${{ product.price }}</p>
                     <p class="card-text">
@@ -86,19 +86,19 @@ $(document).ready(function() {
 });
 </script>
 <style>
-.star-rating {
-    display: inline-block;
-}
+    .star-rating {
+        display: inline-block;
+    }
 
-.star {
-    font-size: 24px;
-    color: #110e0e;
-}
+    .star {
+        font-size: 24px;
+        color: #110e0e;
+    }
 
-.star.filled {
-    color: rgb(255, 174, 0);
-}
-.search-form {
+    .star.filled {
+        color: rgb(255, 174, 0);
+    }
+    .search-form {
         max-width: 800px;
         margin: 0 auto;
         padding: 20px;
@@ -136,6 +136,29 @@ $(document).ready(function() {
     button[type="submit"]:hover {
         background-color: #0056b3;
     }
+
+    .card.reduced-card {
+        max-width: 250px;
+        margin: auto;
+    }
+    .reduced-card-img {
+        height: 200px;
+        object-fit: contain;
+    }
+    .reduced-card-body {
+        padding: 8px;
+    }
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+    .btn-primary {
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
 </style>
 {% endblock %}
-

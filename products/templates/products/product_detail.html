@@ -3,6 +3,7 @@
 {% block title %}Product Detail{% endblock %}
 
 {% block content %}
+<a href="{% url 'product_list' %}"><button class="text-primary">Back</button></a>
 <div class="container">
     <!-- Product Details Section -->
     <h1>{{ product.name }}</h1>
@@ -206,7 +207,7 @@ button {
 }
 textarea{
     height: 5rem;
-    width: 30rem;
+    width: 20rem;
     /* border: 1px solid black; */
     border: none;
     outline: none;
