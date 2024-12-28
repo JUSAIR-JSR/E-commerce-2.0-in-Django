@@ -1,54 +1,64 @@
-<style>
-    .container{
-        /* border: 2px solid red; */
-        margin-top: 2rem;
-        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    }
-    .form-group{
-        /* border: 2px solid red; */
-        display: grid;
-        font-size: 1.3rem;
-    }
-    input{
-        border: none;
-        outline: none;
-        height: 3rem;
-        border-radius: 1.3rem;
-        padding: 1rem;
-    }
-    .btns{
-        display: grid;
-    }
-</style>
-
 {% extends 'base.html' %}
-
-{% block title %}Profile{% endblock %}
-
 {% block content %}
-<h1>Profile</h1>
-<form method="post">
-    {% csrf_token %}
-    <div class="form-group">
-        {{ u_form.username.label_tag }}
-        {{ u_form.username }}
+<head>
+    <title>Profile</title>
+    <style>
+        .container {
+            margin-top: 2rem;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            max-width: 600px;
+            background: #f4f3f3;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .profile-info {
+            margin-bottom: 1.5rem;
+        }
+        .profile-info p {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+        .profile-info img {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 1rem;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 0.3rem;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-align: center;
+            display: inline-block;
+            text-decoration: none;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        .btn-primary:active {
+            background-color: #004080;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-3xl font-bold mb-6 text-center">Profile</h1>
+        <div class="profile-info text-center">
+            <img src="{{ profile.image.url }}" alt="Profile Image">
+            <p><strong>Username:</strong> {{ profile.user.username }}</p>
+            <p><strong>Email:</strong> {{ profile.user.email }}</p>
+            <p><strong>Address:</strong> {{ profile.address }}</p>
+            <p><strong>Phone:</strong> {{ profile.phone }}</p>
+        </div>
+        <a href="{% url 'profile_update' %}" class="btn btn-primary">Update Profile</a>
     </div>
-    <div class="form-group">
-        {{ u_form.email.label_tag }}
-        {{ u_form.email }}
-    </div>
-    <div class="form-group">
-        {{ p_form.address.label_tag }}
-        {{ p_form.address }}
-    </div>
-    <div class="form-group">
-        {{ p_form.phone.label_tag }}
-        {{ p_form.phone }}
-    </div>
-    <div class="btns">
-        <button type="submit" class="btn btn-primary">Update Profile</button>
-    </div>
-</form>
-{% endblock %}
-
-
+</body>
+{% endblock content %}

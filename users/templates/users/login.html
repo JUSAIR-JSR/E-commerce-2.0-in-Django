@@ -1,70 +1,87 @@
-<html>
-    <head>
-        <style>
-            .main{
-                /* border: 2px solid green; */
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-            }
-          .sub{
-            /* border: 2px solid green; */
-            display: grid;
-            width: 30rem;
-            height: 10rem;
-            font-size: 20px;
-
-          }
-          .sub label{
-            font-size: 1.5rem;
-          }
-          .sub input{
-            border: none;
-            outline: none;
-            height: 4rem;
-            border-radius: 1.5rem;
-            padding: 1rem;
-          }
-         .btns{
-            display: grid;
+<style>
+    .main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        padding: 0 1rem;
+    }
+    .container {
+        max-width: 400px;
+        width: 100%;
+        /* background-color: #fff; */
+        padding: 2rem;
+        /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+        border-radius: 0.5rem;
+    }
+    .sub {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+    }
+    .sub label {
+        font-size: 1.2rem;
+        margin-bottom: 0.5rem;
+    }
+    .sub input {
+        border: 1px solid #ccc;
+        padding: 0.75rem;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        width: 100%;
+        outline: none;
+    }
+    .btns {
+        display: flex;
+        justify-content: center;
+    }
+    .btns button {
+        font-size: 1.2rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+    }
+    @media (max-width: 600px) {
+        .container {
+            padding: 1.5rem;
         }
-        .btns button{
-             font-size: 1.5rem;
-             border-radius: 1.3rem;
-         }
-        </style>
-    </head>
-    
-    {% extends 'base.html' %}
+        .sub {
+            margin-bottom: 1rem;
+        }
+        .sub label {
+            font-size: 1rem;
+        }
+        .sub input {
+            font-size: 1rem;
+        }
+        .btns button {
+            font-size: 1rem;
+        }
+    }
+</style>
+
+{% extends 'base.html' %}
 
 {% block title %}Login{% endblock %}
 
-
 {% block content %}
 <div class="main">
-    <form method="post">
-    <h1>Login</h1>
-    {% csrf_token %}
-
-        
-        <div class="conatiner">
+    <div class="container">
+        <form method="post">
+            <h1>Login</h1>
+            {% csrf_token %}
             <div class="sub">
-                <label for="">Name</label>
-                <input type="text" name="username" id="" placeholder="Enter your Name: ">
+                <label for="username">Name</label>
+                <input type="text" name="username" id="username" placeholder="Enter your Name">
             </div>
             <div class="sub">
-                <label for="">Password</label>
-                <input type="password" name="password" id="" placeholder="Enter your Password: ">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" placeholder="Enter your Password">
             </div>
             <div class="btns">
                 <button type="submit" class="btn btn-success">Login</button>
-    
             </div> 
-        </div>
-    </form>
+        </form>
+    </div>
 </div>
-{% endblock %}
-
-</html>
+{% endblock content %}

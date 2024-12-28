@@ -1,5 +1,114 @@
+<style>
+    .star-rating {
+        display: inline-block;
+    }
+
+    .star {
+        font-size: 24px;
+        color: #110e0e;
+    }
+
+    .star.filled {
+        color: rgb(255, 174, 0);
+    }
+
+    .search-form {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        display: flex;
+        flex-wrap: wrap; /* Make the form responsive */
+        margin-bottom: 3rem;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+        width: calc(50% - 6px); /* Make form groups responsive */
+        margin: 3px;    
+    }
+
+    .form-control {
+        border-radius: 5px;
+        font-size: 16px;
+        padding: 2px;
+        width: 100%; /* Ensure inputs take full width */
+    }
+
+    button[type="submit"] {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 30px;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        height: 2.7rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .card.reduced-card {
+        max-width: 250px;
+        margin: 15px;
+        flex: 1 1 calc(33.333% - 30px); /* Make cards responsive */
+    }
+
+    .reduced-card-img {
+        height: 200px;
+        object-fit: contain;
+    }
+
+    .reduced-card-body {
+        padding: 8px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+    }
+
+    .card-text {
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        padding: 5px 10px;
+        font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+        .form-group {
+            width: calc(100% - 6px); /* Make form groups full width on small screens */
+        }
+
+        .card.reduced-card {
+            flex: 1 1 calc(50% - 30px); /* Make cards take half width on small screens */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .card.reduced-card {
+            flex: 1 1 calc(100% - 30px); /* Make cards take full width on very small screens */
+        }
+    }
+</style>
+
+
 {% extends 'base.html' %}
-  
 {% load static %}
 
 {% block title %}Search Results{% endblock %}
@@ -85,80 +194,5 @@ $(document).ready(function() {
     }
 });
 </script>
-<style>
-    .star-rating {
-        display: inline-block;
-    }
 
-    .star {
-        font-size: 24px;
-        color: #110e0e;
-    }
-
-    .star.filled {
-        color: rgb(255, 174, 0);
-    }
-    .search-form {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        display: flex;
-        margin-bottom: 3rem;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-        width: 25rem;
-        margin: 3px;    
-    }
-
-    .form-control {
-        border-radius: 5px;
-        font-size: 16px;
-        padding: 2px;
-    }
-
-    button[type="submit"] {
-        background-color: #007bff;
-        color: white;
-        padding: 10px 30px;
-        font-size: 16px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        height: 2.7rem;
-        margin-left: 2rem;
-    }
-
-    button[type="submit"]:hover {
-        background-color: #0056b3;
-    }
-
-    .card.reduced-card {
-        max-width: 250px;
-        margin: auto;
-    }
-    .reduced-card-img {
-        height: 200px;
-        object-fit: contain;
-    }
-    .reduced-card-body {
-        padding: 8px;
-    }
-    .card-title {
-        font-size: 1.2rem;
-        margin-bottom: 10px;
-    }
-    .card-text {
-        margin-bottom: 10px;
-        font-size: 0.9rem;
-    }
-    .btn-primary {
-        padding: 5px 10px;
-        font-size: 0.9rem;
-    }
-</style>
 {% endblock %}

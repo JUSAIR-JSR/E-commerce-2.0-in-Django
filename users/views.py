@@ -40,9 +40,22 @@ def profile(request):
         profile = Profile(user=request.user)
         profile.save()
 
+    context = {
+        'profile': profile,
+    }
+    return render(request, 'users/profile.html', context)
+
+@login_required
+def profile_update(request):
+    try:
+        profile = request.user.profile
+    except Profile.DoesNotExist:
+        profile = Profile(user=request.user)
+        profile.save()
+
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
-        p_form = ProfileUpdateForm(request.POST, instance=profile)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -55,4 +68,4 @@ def profile(request):
         'u_form': u_form,
         'p_form': p_form
     }
-    return render(request, 'users/profile.html', context)
+    return render(request, 'users/profile_update.html', context)
